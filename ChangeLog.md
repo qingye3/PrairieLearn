@@ -218,6 +218,7 @@
   * Fix slow query for file downloads (Matt West).
 
   * Fix external grading documentation to describe the current code (Nathan Walters).
+  * Fix emulating uid in devMode (Dave Mussulman).
 
   * Change to Bootstrap 4 (Nathan Walters).
 
