@@ -21,6 +21,8 @@
 
   * Fix Slack posting for student cheating reports (Matt West).
 
+  * Fix emulating uid in devMode (Dave Mussulman).
+
   * Change element names to use dashes instead of underscores (Nathan Walters).
 
   * Change deprecated `new Buffer()` calls to `Buffer.from()` (Ray Essick).
@@ -218,7 +220,6 @@
   * Fix slow query for file downloads (Matt West).
 
   * Fix external grading documentation to describe the current code (Nathan Walters).
-  * Fix emulating uid in devMode (Dave Mussulman).
 
   * Change to Bootstrap 4 (Nathan Walters).
 
