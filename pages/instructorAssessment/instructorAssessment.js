@@ -14,6 +14,7 @@ const serverJobs = require('../../lib/server-jobs');
 const csvMaker = require('../../lib/csv-maker');
 const { paginateQuery } = require('../../lib/paginate');
 const assessment = require('../../lib/assessment');
+const ltiOutcomes = require('../../lib/ltiOutcomes');
 const sqldb = require('@prairielearn/prairielib/sql-db');
 const sqlLoader = require('@prairielearn/prairielib/sql-loader');
 
@@ -592,7 +593,13 @@ var regradeAssessmentInstance = function(assessment_instance_id, locals, callbac
                         } else {
                             job.verbose('No changes made');
                         }
-                        job.succeed();
+                        ltiOutcomes.updateScore(assessment_instance_id, (err) => {
+                            if (err) {
+                                job.fail(err);
+                            } else {
+                                job.succeed();
+                            }
+                        });
                     }
                 });
             });
@@ -675,18 +682,23 @@ var regradeAllAssessmentInstances = function(assessment_id, locals, callback) {
                                     msg += 'No changes made';
                                 }
                             }
-                            if (output == null) {
-                                output = msg;
-                            } else {
-                                output += '\n' + msg;
-                            }
-                            output_count++;
-                            if (output_count >= 100) {
-                                job.verbose(output);
-                                output = null;
-                                output_count = 0;
-                            }
-                            callback(null);
+                            ltiOutcomes.updateScore(row.assessment_instance_id, (err) => {
+                                if (err) {
+                                    msg += '\n' + 'ERROR updating score via LTI: ' + str(err);
+                                }
+                                if (output == null) {
+                                    output = msg;
+                                } else {
+                                    output += '\n' + msg;
+                                }
+                                output_count++;
+                                if (output_count >= 100) {
+                                    job.verbose(output);
+                                    output = null;
+                                    output_count = 0;
+                                }
+                                callback(null);
+                            });
                         });
                     }, function(err) {
                         if (output_count > 0) {
