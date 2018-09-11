@@ -684,7 +684,7 @@ var regradeAllAssessmentInstances = function(assessment_id, locals, callback) {
                             }
                             ltiOutcomes.updateScore(row.assessment_instance_id, (err) => {
                                 if (err) {
-                                    msg += '\n' + 'ERROR updating score via LTI: ' + str(err);
+                                    msg += '\n' + 'ERROR updating score via LTI: ' + err.toString();
                                 }
                                 if (output == null) {
                                     output = msg;
